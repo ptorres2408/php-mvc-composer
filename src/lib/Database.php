@@ -21,4 +21,33 @@ class Database
         $this->password = $_ENV['PASSWORD'];
         $this->charset = $_ENV['CHARSET'];
     }
+
+    public function conect()
+    {
+        try {
+            $conection = sprintf(
+                'mysql:host=%s;dbname=%s;charset=%s',
+                $this->host,
+                $this->db,
+                $this->charset
+            );
+            $options = [
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ];
+
+            $pdo = new PDO(
+                $conection,
+                $this->user,
+                $this->password,
+                $options
+            );
+
+            return $pdo;
+        } catch (PDOException $e) {
+            error_log($e);
+            throw $e;
+        }
+    }
 }

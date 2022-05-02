@@ -1,8 +1,14 @@
 <?php
 
+use Ptorres\PhpMvcComposer\controllers\Signup;
+
 $router = new \Bramus\Router\Router();
 
 session_start();
+
+$router->get('/', function () {
+    echo 'login';
+});
 
 $router->get('/signin', function () {
     echo 'login';
@@ -13,11 +19,13 @@ $router->post('/auth', function () {
 });
 
 $router->get('/signup', function () {
-    echo 'signup';
+    $controller = new Signup();
+    $controller->render('signup/index');
 });
 
 $router->post('/register', function () {
-    echo 'register';
+    $controller = new Signup();
+    $controller->register();
 });
 
 $router->get('/home', function () {
